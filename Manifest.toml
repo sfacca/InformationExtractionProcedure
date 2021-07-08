@@ -44,11 +44,23 @@ version = "1.0.0"
 [[Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
+[[BinaryProvider]]
+deps = ["Libdl", "Logging", "SHA"]
+git-tree-sha1 = "ecdec412a9abc8db54c0efc5548c64dfce072058"
+uuid = "b99e7846-7c00-51b0-8f62-c81ae34c0232"
+version = "0.5.10"
+
 [[Bzip2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "c3598e525718abcc440f69cc6d5f60dda0a1b61e"
 uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.6+5"
+
+[[CSTParser]]
+deps = ["Tokenize"]
+git-tree-sha1 = "9723e1c07c1727082e169ca50789644a552fb023"
+uuid = "00ebfdb7-1f24-5e51-bd34-a7502290713f"
+version = "3.2.3"
 
 [[Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
@@ -125,6 +137,12 @@ version = "4.0.4"
 git-tree-sha1 = "ee400abb2298bd13bfc3df1c412ed228061a2385"
 uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
 version = "1.7.0"
+
+[[DataDeps]]
+deps = ["BinaryProvider", "HTTP", "Libdl", "Reexport", "SHA", "p7zip_jll"]
+git-tree-sha1 = "4f0e41ff461d42cfc62ff0de4f1cd44c6e6b3771"
+uuid = "124859b0-ceae-595e-8997-d05f6a7a8dfe"
+version = "0.7.7"
 
 [[DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -309,6 +327,12 @@ git-tree-sha1 = "53bb909d1151e57e2484c3d1b53e19552b887fb2"
 uuid = "42e2da0e-8278-4e71-bc24-59509adca0fe"
 version = "1.0.2"
 
+[[HTML_Entities]]
+deps = ["StrTables"]
+git-tree-sha1 = "c4144ed3bc5f67f595622ad03c0e39fa6c70ccc7"
+uuid = "7693890a-d069-55fe-a829-b4a6d304f0ee"
+version = "1.0.1"
+
 [[HTTP]]
 deps = ["Base64", "Dates", "IniFile", "Logging", "MbedTLS", "NetworkOptions", "Sockets", "URIs"]
 git-tree-sha1 = "c6a1fff2fd4b1da29d3dccaffb1e1001244d844e"
@@ -404,6 +428,12 @@ version = "2.10.0+3"
 git-tree-sha1 = "c7f1c695e06c01b95a67f0cd1d34994f3e7db104"
 uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
 version = "1.2.1"
+
+[[Languages]]
+deps = ["InteractiveUtils", "JSON"]
+git-tree-sha1 = "b1a564061268ccc3f3397ac0982983a657d4dcb8"
+uuid = "8ef0a80b-9436-5d2c-a485-80b904378c43"
+version = "0.4.3"
 
 [[Latexify]]
 deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "Printf", "Requires"]
@@ -691,6 +721,12 @@ version = "0.11.1"
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
+[[ProgressMeter]]
+deps = ["Distributed", "Printf"]
+git-tree-sha1 = "afadeba63d90ff223a6a48d2009434ecee2ec9e8"
+uuid = "92933f4c-e287-5a05-a399-4b506db050ca"
+version = "1.7.1"
+
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
 git-tree-sha1 = "16626cfabbf7206d60d84f2bf4725af7b37d4a77"
@@ -778,6 +814,18 @@ git-tree-sha1 = "91eddf657aca81df9ae6ceb20b959ae5653ad1de"
 uuid = "992d4aef-0814-514b-bc4d-f2e9a6c4116f"
 version = "1.0.3"
 
+[[Snowball]]
+deps = ["Languages", "Snowball_jll", "WordTokenizers"]
+git-tree-sha1 = "d38c1ff8a2fca7b1c65a51457dabebef28052399"
+uuid = "fb8f903a-0164-4e73-9ffe-431110250c3b"
+version = "0.1.0"
+
+[[Snowball_jll]]
+deps = ["Libdl", "Pkg"]
+git-tree-sha1 = "35031519df40fbf0d4a6d2faae4f00e117b0ad11"
+uuid = "88f46535-a3c0-54f4-998e-4320a1339f51"
+version = "2.0.0+0"
+
 [[Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
 
@@ -836,6 +884,12 @@ git-tree-sha1 = "b6c921d87a365c96338838a7725c26c4415ecdbc"
 uuid = "f3b207a7-027a-5e70-b257-86293d7955fd"
 version = "0.14.24"
 
+[[StrTables]]
+deps = ["Dates"]
+git-tree-sha1 = "5998faae8c6308acc25c25896562a1e66a3bb038"
+uuid = "9700d1a9-a7c8-5760-9816-a99fda30bb8f"
+version = "1.0.1"
+
 [[StructArrays]]
 deps = ["Adapt", "DataAPI", "StaticArrays", "Tables"]
 git-tree-sha1 = "000e168f5cc9aded17b6999a560b7c11dda69095"
@@ -874,11 +928,22 @@ version = "1.4.4"
 deps = ["Distributed", "InteractiveUtils", "Logging", "Random"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
+[[TextAnalysis]]
+deps = ["DataStructures", "DelimitedFiles", "JSON", "Languages", "LinearAlgebra", "Printf", "ProgressMeter", "Random", "Serialization", "Snowball", "SparseArrays", "Statistics", "StatsBase", "Tables", "WordTokenizers"]
+git-tree-sha1 = "bc85e54209c30e69e1925460ec0257a916683f59"
+uuid = "a2db99b7-8b79-58f8-94bf-bbc811eef33d"
+version = "0.7.3"
+
 [[TickTock]]
 deps = ["Dates"]
 git-tree-sha1 = "06b7f8269ef74671a8a7c5b2e7d4e670e55c37b7"
 uuid = "9ff05d80-102d-5586-aa04-3a8bd1a90d20"
 version = "1.1.0"
+
+[[Tokenize]]
+git-tree-sha1 = "eee92eda3cc8e104b7e56ff4c1fcf0d78ca37c89"
+uuid = "0796e94c-ce3b-5d07-9a54-7f471281c624"
+version = "0.5.18"
 
 [[TranscodingStreams]]
 deps = ["Random", "Test"]
@@ -932,6 +997,12 @@ deps = ["LinearAlgebra", "SparseArrays"]
 git-tree-sha1 = "59e2ad8fd1591ea019a5259bd012d7aee15f995c"
 uuid = "efce3f68-66dc-5838-9240-27a6d6f5f9b6"
 version = "0.5.3"
+
+[[WordTokenizers]]
+deps = ["DataDeps", "HTML_Entities", "StrTables", "Unicode"]
+git-tree-sha1 = "01dd4068c638da2431269f49a5964bf42ff6c9d2"
+uuid = "796a5d58-b03d-544a-977e-18100b691f6e"
+version = "0.5.6"
 
 [[XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
@@ -1112,6 +1183,12 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Ogg_jll", "Pkg"]
 git-tree-sha1 = "fa14ac25af7a4b8a7f61b287a124df7aab601bcd"
 uuid = "f27f6e37-5d2b-51aa-960f-b287f2bc3b7a"
 version = "1.3.6+6"
+
+[[p7zip_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "ee65cfa19bea645698a0224bfa216f2b1c8b559f"
+uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
+version = "16.2.0+3"
 
 [[x264_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]

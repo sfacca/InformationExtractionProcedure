@@ -142,7 +142,7 @@ function file_to_docvecs(root, file, doc_dict::Dict{T,Int64}, block_dict::Dict{S
     end
     res
 end
-
+#=
 function get_bags(docu::Array{TopicModels.Document,1}, lexi::Array{String,1})
 	bags = Array{Array{String,1},1}(undef, length(docu))
 	for i in 1:length(docu)
@@ -153,7 +153,7 @@ function get_bags(docu::Array{TopicModels.Document,1}, lexi::Array{String,1})
 		bags[i] = sort(bags[i])
 	end
 	bags
-end
+end=#
 
 
 function make_docvec(tmp::doc_fun_block_voc, doc_dict::Dict{T,Int64}, block_dict::Dict{S,Int64}) where {T, S}

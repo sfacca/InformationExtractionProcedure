@@ -12,18 +12,27 @@ function out_to_scrapes(dir, verbose=false)
 	end
 end
 
-
 function make_voc_from_jld2(root, file, verbose = true)    
 	name = splitpath(root)[end]
-    if verbose println("handling $name ------")
+    if verbose 
+		println("handling $name ------")
+	end
     mkpath("tmp/$name")
-	if verbose println("unzipping...")
+	if verbose 
+		println("unzipping...")
+	end
     unzip("tmp/$name/file.zip","tmp/$name")	
-	if verbose println("parse/scrape...")
+	if verbose 
+		println("parse/scrape...")
+	end
     parse = parse_and_scrape_folder("tmp/$name")
-    if verbose println("saving...")
+    if verbose 
+		println("saving...")
+	end
     save("scrapes/$(name).jld2", Dict(name => scrape))
-    if verbose println("cleanup...")
+    if verbose 
+		println("cleanup...")
+	end
 	rm("tmp/$name", recursive = true)
 	scrape = nothing
 	parse = nothing

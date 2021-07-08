@@ -63,12 +63,12 @@ function __extract_father(str::String)
     __swap_slash(lowercase(split(str, "|")[2]))
 end
 
-function apply_map!(dfs::Union{Array{doc_fun_block,1},Array{doc_fun,1}}, map)    
+function apply_map!(dfs::Array{doc_fun_block,1}, map)    
     for i in 1:length(dfs)
         dfs[i] = apply_map(dfs[i], map)
     end
 end
-function apply_map(df::Union{doc_fun_block,doc_fun}, map)
+function apply_map(df::doc_fun_block, map)
     parts = split(df.fun, "|")
     i = 0
     if length(parts) == 3
@@ -85,7 +85,7 @@ function apply_map(df::Union{doc_fun_block,doc_fun}, map)
     df
 end
 
-function get_unhandled(dfs::Union{Array{doc_fun_block,1},Array{doc_fun,1}}, map)
+function get_unhandled(dfs::Array{doc_fun_block,1}, map)
     res = []
     for df in dfs
         if is_unhandled(df, map)
@@ -126,10 +126,10 @@ function dir_to_unhandled(dir, number=false)
     res
 end
 
-function is_unhandled(df::Union{doc_fun_block, doc_fun}, map)
+function is_unhandled(df::doc_fun_block, map)
     occursin(r"|", df.fun) && occursin(r"src", df.fun) && !haskey(map, __extract_father(df.fun))        
 end
-function has_unhandled(dfs::Union{Array{doc_fun_block,1},Array{doc_fun,1}}, map)
+function has_unhandled(dfs::Array{doc_fun_block,1}, map)
     res = false
     for df in dfs
         if is_unhandled(df, map)

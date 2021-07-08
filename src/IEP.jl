@@ -3,7 +3,7 @@ module InformationExtractionProcedure
     using FileIO, TickTock, SparseArrays
     using Clustering, Distances, StatsPlots, Catlab, ZipFile
 
-    using Languages, TextAnalysis
+    using Languages, TextAnalysis, CSTParser
 
     include("src.jl")
     load = FileIO.load
