@@ -49,12 +49,6 @@ function getName(arr::Array{CSTParser.EXPR,1})::Array{String,1}
 	[getName(x) for x in arr]
 end	
 
-"""
-takes an expr that defines a function adress/name, returns NameDef
-"""
-function scrapeName(e::CSTParser.EXPR)::NameDef
-	NameDef(e)
-end
 
 function isequal(x::NameDef, y::NameDef)
 	getName(x)==getName(y)

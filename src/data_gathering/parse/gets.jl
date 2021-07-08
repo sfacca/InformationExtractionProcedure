@@ -27,16 +27,16 @@ function flattenExpr(e::CSTParser.EXPR)::Array{CSTParser.EXPR}
 	res
 end
 
+"""
+returns every .head of every EXPR
+"""
 function get_all_heads(e::Array{CSTParser.EXPR,1})
 	res = []
 	for x in e
 		res = vcat(res, get_all_heads(x))
 	end
 	res
-end	
-"""
-returns every .head of every EXPR
-"""
+end
 function get_all_heads(e::CSTParser.EXPR)
 	if isnothing(e.head)
 		res = []
@@ -99,16 +99,6 @@ function find_heads(x::Array{Any,1}, symbol::Symbol)
 		else
 			println("loop i")
 	end=#
-	end
-	res
-end
-"""
-returns all values of .head of every EXPR
-"""
-function get_all_heads(e::CSTParser.EXPR)
-	res = [e.head]
-	for expr in e
-		res = vcat(res, get_all_heads(expr))
 	end
 	res
 end

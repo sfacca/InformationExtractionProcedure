@@ -134,7 +134,8 @@ function add_components(
 		#println("adding a component")
 		add_AComponentOfB(get_Any(component_type, i, data), anyB, data)
 	end
-end	
+end
+
 """
 function is equivalent but slightly faster than running set_ImplementsFunc(fun_id, add_Code_block(block, data), data)
 """
