@@ -48,3 +48,10 @@ function kmeans_range(mat, range=nothing, verbose=true, save_parts=true, name="k
     end
     res
 end
+
+
+
+function non_empty_bags_indexes(mat)
+    filter((x)->(!isempty(mat[:,x].nzval)), [i for i in 1:size(mat)[2]])
+end
+

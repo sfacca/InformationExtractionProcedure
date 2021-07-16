@@ -32,3 +32,7 @@ end
 function make_dfb_from_jld2(root, file)
 	save("dfbs/$file", Dict(splitext(file)[1] => file_to_doc_fun_block(root, file)))
 end
+
+function __get_name(root)
+	split(root, "\\")[end]
+end

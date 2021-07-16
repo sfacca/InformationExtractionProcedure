@@ -12,6 +12,17 @@ function make_bags(dfbs::Array{doc_fun_block,1}, stemmer=Stemmer("english"), tok
     bags
 end
 
+
+# just use poormans_tokenizer
+function stem_tokenize_doc(sd::StringDocument{String}; stemmer=Stemmer("english"), tokenizer=punctuation_space_tokenize)
+    stem!(stemmer, sd)
+    tokenizer(TextAnalysis.text(sd))
+end
+
+function stem_tokenize_doc(doc::Array{StringDocument{String},1}; stemmer=Stemmer("english"), tokenizer=punctuation_space_tokenize)
+    [stem_tokenize_doc(x; stemmer = stemmer, tokenizer = tokenizer) for x in doc]
+end
+
 function make_bag(dfb::doc_fun_block, stemmer=Stemmer("english"), tokenizer=punctuation_space_tokenize, block_tokenize = block_to_bag)
     fun = dfb.fun
     block = block_tokenize(dfb.block)

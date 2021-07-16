@@ -21,3 +21,5 @@ function write_global_includer(dir, includes)
         end
     end
 end
+
+"make_global_includer(dir)"

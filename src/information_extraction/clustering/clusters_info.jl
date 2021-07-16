@@ -322,9 +322,7 @@ function nmi_folder(dir)
 end
 
 """
-p(word | class)
-p(word | class)
-p(word)"""
+takes kmeans result and matrix data, computes frequent*prediuctive score for each word relative to each cluster"""
 function frequent_and_predictive_words_method(kres, data)
     # get p(word)
     cols = data.n
@@ -344,6 +342,7 @@ function frequent_and_predictive_words_method(kres, data)
 
 end
 
+"""takes in result of frequent and predictive words method, a dictionary array and the name of the result file to write"""
 function print_fapwm(arr, lexi::Array{String,1}, name::String="frequent and predictive words.md")
     res = []
     for clust in arr
@@ -357,8 +356,7 @@ function print_fapwm(arr, lexi::Array{String,1}, name::String="frequent and pred
     end
     print_fapwm(res, name)
 end
-
-function print_fapwm(arr, name="frequent and predictive words.md")
+function print_fapwm(arr, name::String="frequent and predictive words.md")
     open(name, "w") do io
         write(io, "This file contains every word present in each cluster, ordered by the score given by the Frequent and Predictive words Method,\n which scores words based on the product of local frequency and predictiveness.\n For more informations, see https://iarjset.com/upload/2017/july-17/IARJSET%203.pdf\n")
         for i in 1:length(arr)

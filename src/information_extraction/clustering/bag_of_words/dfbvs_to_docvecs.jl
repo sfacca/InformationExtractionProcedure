@@ -30,7 +30,7 @@ function dfbvs_to_docvecs(dir, doc_lexicon=FileIO.load("doc_lexicon.jld2")["doc_
 end
 
 function dir_to_lexicons(dir)
-	
+	count=0
 	for (root, dirs, files) in walkdir(dir)
 		for file in files
 			if endswith(file, ".jld2")
@@ -39,13 +39,13 @@ function dir_to_lexicons(dir)
 		end
 	end
 
-	tmp = Array{doc_fun_block_voc,1}(undef, count)
+	tmp = Array{doc_fun_block_voc,1}(undef, 0)
 	i = 0
 	for (root, dirs, files) in walkdir(dir)
 		for file in files
 			if endswith(file, ".jld2")
 				i += 1
-				tmp[i] = load(joinpath(root, file))[splitext(file)[1]]						
+				tmp = vcat(tmp, load(joinpath(root, file))[splitext(file)[1]])
 				println("loaded file $(i) of $(count)")
 			end	
 		end

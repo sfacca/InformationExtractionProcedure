@@ -1,8 +1,8 @@
-module InformationExtractionProcedure
+module IEP
     using JLD2
     using FileIO, TickTock, SparseArrays
     using Clustering, Distances, StatsPlots, Catlab, ZipFile
-
+    using WordTokenizers
     using Languages, TextAnalysis, CSTParser
 
     include("src.jl")
