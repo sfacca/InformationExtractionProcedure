@@ -4,6 +4,7 @@ module IEP
     using Clustering, Distances, StatsPlots, Catlab, ZipFile
     using WordTokenizers
     using Languages, TextAnalysis, CSTParser
+    using Distances
 
     include("src.jl")
     load = FileIO.load
