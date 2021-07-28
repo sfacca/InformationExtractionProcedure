@@ -1,7 +1,7 @@
 
 function make_dmat(doc_mat)
     convert(
-        Array{T} where T <: AbstractFloat, 
+        Array{T} where T <: Number, 
         pairwise(SqEuclidean(), doc_mat)
         )
 end
