@@ -88,3 +88,79 @@ function topmost_words(fapwm, num=10)
     end
     res
 end
+
+function local_frequencies(assignments, data)
+    cols = size(data, 2)# number of documents
+    rows = size(data, 1)# number of words
+
+    res = spzeros(rows ,maximum(assignments))
+    for cluster in 1:maximum(assignments)     
+        ids = findall((x)->(x==cluster),assignments)
+        sums = [count((x)->(x>0),data[i,ids]) for i in 1:rows]
+        for word in 1:rows
+            if sums[word]!=0
+                res[word, cluster] = sums[word]/length(ids)
+            end
+        end
+    end
+
+    res
+end
+
+function predictiveness(assignments, data)
+    cols = size(data, 2)# number of documents
+    rows = size(data, 1)# number of words
+    wsums = [count((x)->(x>0),data[i,:]) for i in 1:rows]
+    # calculate word frequency p(word) as occurrences/documents
+    # occurrences arent the sums of times a word appears in each documents but the amount of documents a word appears in, regardless of how many times it appears in that document
+    pword = [(wsums[i] == 0 ? 0 : wsums[i]/cols) for i in 1:rows]
+
+    res = spzeros(rows ,maximum(assignments))
+    for cluster in 1:maximum(assignments)# for each cluster        
+        ids = findall((x)->(x==cluster),assignments)
+        # calculate sum of word occurrences among all documents of cluster
+        sums = [count((x)->(x>0),data[i,ids]) for i in 1:rows]
+        # calculate cluster local frequency p(word | cluster) of word in cluster as occurrences(in the cluster)/documents(in the cluster)
+        frqs = [(sums[i]==0 ? 0 : sums[i]/length(ids)) for i in 1:rows]
+        for word in 1:rows
+            if frqs[word] != 0
+                # set value
+                res[word, cluster] = (frqs[word]/pword[word])
+            end
+            # if local frequency is 0, value is also 0
+            # return matrix is initialized as 0 so we dont need to do anything in this case
+        end
+    end
+
+    res
+end
+
+
+
+function plot_combo(fp::SparseVector, f::SparseVector, p::SparseVector, num::Int)
+    
+    srp = sortperm(fp, rev=true)
+    if length(srp)>num
+        srp = srp[1:num]
+    elseif num>length(srp)
+        tmp = srp[end]
+        asd = Int(num - length(srp))
+        for _ in 1:asd
+            push!(srp, tmp)
+        end
+    end
+    p1 = plot(collect(1:num), p[srp], title="predictiveness (p)", xticks = (1:num))
+    p2 = plot(collect(1:num), fp[srp], title="f*p", xticks = (1:num))
+    p3 = plot(collect(1:num), f[srp], title="local frequency (f)", xticks = (1:num), ylim=(0,1))
+    plot(p1, p2, p3, layout=(3,1), legend=false)
+end
+
+function plot_all_combos(fapwm, fs, ps, num)
+    for cluster in 1:fapwm.n
+        p = plot_combo(fapwm[:,cluster], fs[:,cluster], ps[:,cluster], num)        
+        savefig("cluster $cluster p fp f plot.svg")
+    end
+end
+
+
+
