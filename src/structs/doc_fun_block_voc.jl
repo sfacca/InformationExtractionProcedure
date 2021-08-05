@@ -109,10 +109,27 @@ end
 function get_lexicons(dfbvs::Array{doc_fun_block_voc,1})
     doc = []
     block = []
+    docmaxl = 0
+    blockmaxl = 0
     for dfbv in dfbvs
-        doc = vcat(doc, dfbv.doc_voc)
-        block = vcat(block, dfbv.block_voc)
+        # this should minimize reallocations
+        docmaxl += length(dfbv.doc_voc)
+        blockmaxl += length(dfbv.block_voc)
+        #doc = vcat(doc, dfbv.doc_voc)
+        #block = vcat(block, dfbv.block_voc)
     end
+    di = 1
+    bi = 1
+    doc = Array{String,1}(undef, docmaxl+1)
+    block = Array{String,1}(undef, blockmaxl+1)
+    for dfbv in dfbvs
+        doc[di:(di+length(dfbv.doc_voc))] = dfbv.doc_voc
+        block[bi:(bi+length(dfbv.block_voc))] = dfbv.block_voc
+
+        di += length(dfbv.doc_voc)+1
+        bi += length(dfbv.block_voc)+1
+    end
+
     unique(doc), unique(block)
 end
 

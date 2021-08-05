@@ -3,7 +3,7 @@ function dfbvs_to_docvecs(dir, doc_lexicon=FileIO.load("doc_lexicon.jld2")["doc_
 	count = 0
 
 
-	get_lexicons
+	
 	for (root, dirs, files) in walkdir(dir)
 		for file in files
 			if endswith(file, ".jld2")
