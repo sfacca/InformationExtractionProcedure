@@ -30,7 +30,7 @@ function kmeans_range(mat, range=nothing, verbose=true, save_parts=true, name="k
             else
                 for j in i
                     push!(res, Clustering.kmeans(mat, j))
-                    if save_parts && !(isfile("$folder/$name$j.jld2"))
+                    if save_parts
                         FileIO.save("$folder/$name$j.jld2", Dict("kmeans"=>res[end]))
                         println("saved k means $j to $name$j.jld2")
                     end

@@ -110,5 +110,5 @@ end
 
 function docstring_cleanup(str::String)
     # 1 turn = into whitespaces
-    replace(str, "="=>" ")    
+    replace(str, r"[=./\\,:+]"=>" ")    
 end

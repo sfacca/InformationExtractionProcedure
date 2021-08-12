@@ -118,6 +118,11 @@ end
 function plot_silhouettes_folder(dir,dmat)
     ks, silhos, asses = silhouette_folder(dir; data=nothing, dmat=dmat)
 
+    plot_silhouettes_folder_result(ks, silhos, asses)
+end
+
+
+function plot_silhouettes_folder_result(ks, silhos, asses)
     means = []
     c_means = []
     for i in 1:length(ks)
@@ -128,6 +133,5 @@ function plot_silhouettes_folder(dir,dmat)
     plot!(ks, means; label="means of documents")
     plot!(ks, c_means; label="means of clusters")
 end
-
 
 

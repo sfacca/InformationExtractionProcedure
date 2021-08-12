@@ -1,6 +1,6 @@
 
 """doc_fun_block_docvecs => documents matrix"""
-function make_matrix_from_dir(dir, save_files=true)
+function make_matrix_from_dir(dir, save_files=false)
 	#1 load every doc_fun_block_docvecs array in dir
 	doc_docvecs = []
 	block_docvecs = []
@@ -59,8 +59,9 @@ function make_matrix_from_dir(dir, save_files=true)
 		println("saving files block.documents and doc.documents")
 		IEP.write_documents(block_mat,"block_bags.documents")
 		IEP.write_documents(doc_mat,"doc_bags.documents")
+		
 	end
-	doc_mat, block_mat, fun_names, source_ranges
+	Int32.(doc_mat), Int32.(block_mat), fun_names, source_ranges
 end
 
 

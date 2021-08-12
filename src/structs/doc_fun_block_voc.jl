@@ -60,7 +60,7 @@ function make_dfbv(dfbs::Array{doc_fun_block_bag}, unwanted = nothing)
 end
 
 
-function make_lexicons(dfbvs::Array{doc_fun_block_voc,1};type=1)
+function make_lexicons(dfbvs::Array{doc_fun_block_voc,1};type=0)
     if type == 1
         doc_voc = []
         block_voc = []
@@ -122,15 +122,22 @@ function get_lexicons(dfbvs::Array{doc_fun_block_voc,1})
     bi = 1
     doc = Array{String,1}(undef, docmaxl+1)
     block = Array{String,1}(undef, blockmaxl+1)
+    c = 1
     for dfbv in dfbvs
-        doc[di:(di+length(dfbv.doc_voc))] = dfbv.doc_voc
-        block[bi:(bi+length(dfbv.block_voc))] = dfbv.block_voc
+        println("$c")
+        c+=1
+        for i in 1:length(dfbv.doc_voc)
+            doc[di] = dfbv.doc_voc[i]
+            di+=1
+        end
+        for i in 1:length(dfbv.block_voc)
+            block[bi] = dfbv.block_voc[i]
+            bi+=1
+        end
 
-        di += length(dfbv.doc_voc)+1
-        bi += length(dfbv.block_voc)+1
     end
 
-    unique(doc), unique(block)
+    unique(doc[1:(di-1)]), unique(block[1:(bi-1)])
 end
 
 function get_lexicons_from_file(root, file)
