@@ -1,4 +1,6 @@
 
+
+
 mutable struct expr_node
     id::Int
     type::Symbol
@@ -57,12 +59,25 @@ function ast_size(root::expr_node)::Int
     end
 end
 
-function init_lexi(root::expr_node)::expr_lexi
-    expr_lexi(Array{expr_node,1}(undef, ast_size(root)), 0)
+function init_lexi(starting_size::Int)::expr_lexi
+    expr_lexi(Array{expr_node,1}(undef, starting_size), 0)
+end
+
+function flatten_ast!(arr::Array{Any,1})
+    nodes = 0
+    for node in arr
+        nodes += ast_size(node)
+    end
+    lexi = init_lexi(nodes)
+    for node in arr
+        flatten_ast!(node, lexi)
+    end
+    lexi
 end
 
 
-function flatten_ast!(root::expr_node, lexicon::expr_lexi = init_lexi(root))::Int
+
+function flatten_ast!(root::expr_node, lexicon::expr_lexi = init_lexi(ast_size(root)))::Int
     if isempty(expr_node.children)
         if isempty(lexicon)
             root.id = 1
@@ -132,10 +147,35 @@ function make_ast_from_jld2(root, file)
 end
 
 function file_to_ast(root, file)
-    dfbs = load(joinpath(root, file))[splitext(file)[1]]
+    dfbs = FileIO.load(joinpath(root, file))[splitext(file)[1]]
     [(x.fun, get_ast(x.block)) for x in dfbs]
 end
 
 function __get_name(root)
     split(root, "\\")[end]
+end
+
+function files_to_ast(dir)
+    i = 0
+    count = 0
+    fails = []
+    
+    for (root, dirs, files) in walkdir(dir)
+        for file in files
+            count += 1
+        end
+    end
+    names = []
+    res = []
+    for (root, dirs, files) in walkdir(dir)
+        for file in files
+            tmp = FileIO.load(joinpath(root, file))[splitext(file)[1]]
+            println("loaded file $i of $count")
+            names = vcat(names, [x.fun for x in tmp])
+            res = vcat(res, [get_ast(x.block) for x in tmp])
+            i+=1
+        end
+    end
+
+    names, res
 end
