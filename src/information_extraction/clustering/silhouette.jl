@@ -16,7 +16,7 @@ function silhouette_folder(dir; data=nothing, dmat=nothing)
         if isnothing(data)
             throw("need to declare either data or dmat (distance matrix)")
         else
-            dmat = make_dmat(data)
+            dmat = make_dmat(Matrix(data))
         end
     end
     # we have dmat now
