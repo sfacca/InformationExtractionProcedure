@@ -171,6 +171,7 @@ function add_to_lexi!(lexi::expr_lexi, node::expr_node)
     if length(lexi.lexi) < lexi.last
         tmp = Array{expr_node, 1}(undef, lexi.last * 2)
         tmp[1:(length(lexi.lexi))] = lexi.lexi
+        lexi.lexi = tmp
     end
     lexi.lexi[lexi.last] = node
 end
