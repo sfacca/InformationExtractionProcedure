@@ -1,78 +1,7 @@
-#using CSTParser
-#=
-
-
-
-
-:IDENTIFIER
-:NONSTDIDENTIFIER (e.g. var"id")
-:OPERATOR
-
-# Punctuation
-:COMMA
-:LPAREN
-:RPAREN
-:LSQUARE
-:RSQUARE
-:LBRACE
-:RBRACE
-:ATSIGN
-:DOT
-
-# Keywords
-:ABSTRACT
-:BAREMODULE
-:BEGIN
-:BREAK
-:CATCH
-:CONST
-:CONTINUE
-:DO
-:ELSE
-:ELSEIF
-:END
-:EXPORT
-:FINALLY
-:FOR
-:FUNCTION
-:GLOBAL
-:IF
-:IMPORT
-:LET
-:LOCAL
-:MACRO
-:MODULE
-:MUTABLE
-:NEW
-:OUTER
-:PRIMITIVE
-:QUOTE
-:RETURN
-:STRUCT
-:TRY
-:TYPE
-:USING
-:WHILE
-
-# Literals
-:INTEGER
-:BININT (0b0)
-:HEXINT (0x0)
-:OCTINT (0o0)
-:FLOAT
-:STRING
-:TRIPLESTRING
-:CHAR
-:CMD
-:TRIPLECMD
-:NOTHING 
-:TRUE
-:FALSE
-=#
 
 mutable struct expr_node
     id::Int
-    type::String
+    type::Symbol
     value::Union{String,Nothing}
     children::Array{Union{Int,expr_node},1}
 end
@@ -89,7 +18,7 @@ mutable struct expr_lexi
 end
 
 function same_node(a::expr_node, b::expr_node)::Bool
-    a.value == b.value && a.type == b.type $$ a.children == b.children
+    a.value == b.value && a.type == b.type && a.children == b.children
 end
 
 function same_value(a::expr_node, b::expr_node)::Bool
@@ -107,7 +36,7 @@ function get_ast(expr::CSTParser.EXPR)::expr_node
         value = expr.val
     end
 
-    if !isempty(expr.args)
+    if !isnothing(expr.args) && !isempty(expr.args)
         children = [get_ast(a) for a in expr.args]
     else
         children = []
@@ -176,122 +105,37 @@ function add_to_lexi!(lexi::expr_lexi, node::expr_node)
     lexi.lexi[lexi.last] = node
 end
 
-function get_type(expr::CSTParser.EXPR)::String
 
 
-#=
-ArrayCreator
-ArrayInitializer
-ArraySelector
-AssertStatement
-Assignment
-BasicType
-BinaryOperation
-BlockStatement
-BreakStatement
-Cast
-CatchClause
-CatchClauseParameter
-ClassCreator
-ClassReference
-ConstructorDeclaration
-ContinueStatement
-DoStatement
-ElementArrayValue
-ElementValuePair
-EnhancedForControl
-ExplicitConstructorInvocation
-ForControl
-ForStatement
-FormalParameter
-IfStatement
-InnerClassCreator
-Literal
-LocalVariableDeclaration
-MemberReference
-MethodDeclaration
-MethodInvocation
-ReferenceType
-ReturnStatement
-Statement
-StatementExpression
-SuperConstructorInvocation
-SuperMemberReference
-SuperMethodInvocation
-SwitchStatement
-SwitchStatementCase
-SynchronizedStatement
-TernaryExpression
-This
-ThrowStatement
-TryResource
-TryStatement
-TypeArgument
-TypeParameter
-VariableDeclaration
-VariableDeclarator
-VoidClassReference
-WhileStatement
+function dfb_to_ast(dir)
+    i = 0
+    count = 0
+    fails = []
+    
+    for (root, dirs, files) in walkdir(dir)
+        for file in files
+            count += 1
+        end
+    end
 
-=#
+    for (root, dirs, files) in walkdir(dir)
+        for file in files
+            make_ast_from_jld2(root, file)
+            i += 1
+            println("handled file $(i) of $(count)")	
+        end
+    end
+end
+    
+function make_ast_from_jld2(root, file)
+    save("ast/$file", Dict(splitext(file)[1] => file_to_ast(root, file)))
 end
 
+function file_to_ast(root, file)
+    dfbs = load(joinpath(root, file))[splitext(file)[1]]
+    [(x.fun, get_ast(x.block)) for x in dfbs]
+end
 
-
-
-#=
-Annotation
-ArrayCreator
-ArrayInitializer
-ArraySelector
-AssertStatement
-Assignment
-BasicType
-BinaryOperation
-BlockStatement
-BreakStatement
-Cast
-CatchClause
-CatchClauseParameter
-ClassCreator
-ClassReference
-ConstructorDeclaration
-ContinueStatement
-DoStatement
-ElementArrayValue
-ElementValuePair
-EnhancedForControl
-ExplicitConstructorInvocation
-ForControl
-ForStatement
-FormalParameter
-IfStatement
-InnerClassCreator
-Literal
-LocalVariableDeclaration
-MemberReference
-MethodDeclaration
-MethodInvocation
-ReferenceType
-ReturnStatement
-Statement
-StatementExpression
-SuperConstructorInvocation
-SuperMemberReference
-SuperMethodInvocation
-SwitchStatement
-SwitchStatementCase
-SynchronizedStatement
-TernaryExpression
-This
-ThrowStatement
-TryResource
-TryStatement
-TypeArgument
-TypeParameter
-VariableDeclaration
-VariableDeclarator
-VoidClassReference
-WhileStatement
-
-=#
+function __get_name(root)
+    split(root, "\\")[end]
+end
