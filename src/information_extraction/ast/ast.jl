@@ -88,10 +88,14 @@ function flatten_ast!(arr::Array{Any,1}, lexi::Union{Nothing, expr_lexi}=nothing
 		end
 		lexi = init_lexi(nodes)
 	end
-    for node in arr
-        flatten_ast!(node, lexi)
+
+    res = Int.zeros(length(arr))
+
+    for i in 1:length(arr)
+        res[i] = flatten_ast!(arr[i], lexi)
     end
-    lexi
+
+    lexi, res
 end
 
 function flatten_ast!(root::expr_node, lexicon::expr_lexi = init_lexi(ast_size(root)))::Int
@@ -250,7 +254,7 @@ function files_to_ast(dir)
     names, res
 end
 
-function ast_lookup(root::expr_node, lexi::expr_lexi)
+function ast_lookup(root::expr_node, lexi::expr_lexi)::Union{Int, Nothing}
     if isnothing(lexi.typemap)
         init_typemap!(lexi)
     end
@@ -268,6 +272,41 @@ function ast_lookup(root::expr_node, lexi::expr_lexi)
     r
 end
 
-function ast_lookup(i::Int, lexi::expr_lexi)
+function ast_lookup(i::Int, lexi::expr_lexi)::Int
     i
 end
+
+function ast_lookup(forest::Array{expr_node,1}, lexi::expr_lexi)::Array{Int,1}
+    [ast_lookup(x, lexi) for x in forest]
+end
+
+function get_vectors(arr::Array{Union{expr_node,Int},1}, lexi::expr_lexi)::Array{Array{Int,1},1}
+    [node_vectorize(x, lexi) for x in arr]
+end
+
+function node_vectorize(node::expr_node, lexi::expr_lexi)::Array{Int, 1}
+    node_vectorize(ast_lookup(node, lexi), lexi)
+end
+
+function node_vectorize(i::Int, lexi::expr_lexi)::Array{Int, 1}
+    res = [i]
+    for child in lexi.lexi[i].children
+        res = vcat(res, node_vectorize(child, lexi))
+    end
+    res
+end
+
+function bag_vectors_to_mat(vecs)
+    cols = length(vecs)
+    rows = maximum([maximum(x) for x in vecs])
+
+    mat = spzeros(rows, cols)
+
+    for col in 1:cols
+        for word in vecs[col]
+            mat[word,col] += 1
+        end
+    end
+    mat
+end
+
