@@ -5,6 +5,7 @@ module IEP
     using WordTokenizers
     using Languages, TextAnalysis, CSTParser
     using Distances, Statistics
+    using Combinatorics
 
     include("src.jl")
     load = FileIO.load

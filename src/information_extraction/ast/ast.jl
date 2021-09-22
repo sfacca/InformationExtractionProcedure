@@ -280,7 +280,7 @@ function ast_lookup(forest::Array{expr_node,1}, lexi::expr_lexi)::Array{Int,1}
     [ast_lookup(x, lexi) for x in forest]
 end
 
-function get_vectors(arr::Array{Union{expr_node,Int},1}, lexi::expr_lexi)::Array{Array{Int,1},1}
+function get_documents(arr::Array{Union{expr_node,Int},1}, lexi::expr_lexi)::Array{Array{Int,1},1}
     [node_vectorize(x, lexi) for x in arr]
 end
 
@@ -294,6 +294,9 @@ function node_vectorize(i::Int, lexi::expr_lexi)::Array{Int, 1}
         res = vcat(res, node_vectorize(child, lexi))
     end
     res
+end
+function node_vectorize(n::Nothing, lexi::expr_lexi)
+    throw("node vectorize error: ast_lookup could not find node in lexicon")
 end
 
 function bag_vectors_to_mat(vecs)

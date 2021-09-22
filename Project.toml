@@ -2,6 +2,7 @@
 CSTParser = "00ebfdb7-1f24-5e51-bd34-a7502290713f"
 Catlab = "134e5e36-593f-5add-ad60-77f754baafbe"
 Clustering = "aaaa29a8-35af-508c-8bc3-b662a17a0fe5"
+Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
 Distances = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
 FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
 JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
