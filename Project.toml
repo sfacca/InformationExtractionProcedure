@@ -1,4 +1,5 @@
 [deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 CSTParser = "00ebfdb7-1f24-5e51-bd34-a7502290713f"
 Catlab = "134e5e36-593f-5add-ad60-77f754baafbe"
 Clustering = "aaaa29a8-35af-508c-8bc3-b662a17a0fe5"
