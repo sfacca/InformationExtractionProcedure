@@ -20,6 +20,18 @@ function make_dmat(mat::SparseMatrixCSC)
             res[colB,colA] = res[colA,colB] 
         end
     end
+    # check if we can just turn it into an Int mat to save space
+    ares = nothing
+    try
+        ares = Int32.(res)
+    catch e
+        println("couldnt return matrix as Int matrix")
+        ares = nothing
+    end
+    if !isnothing(ares)
+        res = ares
+    end
+    
 
     res
 end

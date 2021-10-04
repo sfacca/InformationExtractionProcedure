@@ -169,4 +169,8 @@ function mean(x::Array{T,1}) where {T<:Number}
     sum(x)/length(x)
 end
 
+function mean(x)
+    sum(x)/length(x)
+end
+
 

@@ -15,8 +15,8 @@ function silhouette_folder(dir; data=nothing, dmat=nothing)
     if isnothing(dmat)
         if isnothing(data)
             throw("need to declare either data or dmat (distance matrix)")
-        else
-            dmat = make_dmat(Matrix(data))
+        else            
+            dmat = make_dmat(data)
         end
     end
     # we have dmat now
@@ -66,7 +66,7 @@ function plot_silhouettes_result(res, assignments)
     # group silhouette scores by cluster assignments
     ass_sp = sortperm(assignments)
     means = []
-    tmp = []
+    tmp = Array{Float64,1}(undef, 0)
     ass = assignments[ass_sp]
     mem = ass[1]
     mem_i = 1
@@ -75,7 +75,7 @@ function plot_silhouettes_result(res, assignments)
         if ass[i] != mem
             plot!(mem_i:(i-1), tmp,legend = false)
             push!(means, mean(tmp))           
-            tmp = []
+            tmp = Array{Float64,1}(undef, 0)
             mem = ass[i]
             mem_i = i
         end

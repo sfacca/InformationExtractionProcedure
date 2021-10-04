@@ -298,6 +298,19 @@ function deep_mat_redim!(mat)
     handle_row_change!(mat, changes)
 end
 
+
+#=
+    for column in 1:length(rows)
+        if !isempty(rowvals[column])
+            changes[column] = get_saferoot(rowvals[column], rows[column], column)
+        else
+            changes[column] = mat_row_change([], 0, 0)
+        end
+        println("$column out of $(length(rows))")
+    end
+
+=#
+
 function get_deep_changes(mat)
     mat = dropzeros(mat)
     rows = find_rows(mat)
@@ -366,4 +379,47 @@ function get_nonempty_rows(mat)
     sort(unique(dropzeros(mat).rowval))
 end
 
+
+
+
+function simple_redim!(mat)
+    mat = dropzeros(mat)
+    rows = find_rows(mat)
+
+    rowvals = [[mat[rowid, col] for rowid in rows[col]] for col in 1:length(rows)]
+    changes = Array{mat_row_change, 1}(undef, length(rows))
+    for column in 1:length(rows)
+        if !isempty(rowvals[column])
+            val = __check_round(sum([x^2 for x in rowvals[column]]))
+            if !iszero(val)
+                changes[column] = mat_row_change(rows[column], column, val)
+            else
+                changes[column] = mat_row_change([], 0, 0)
+            end
+        else
+            changes[column] = mat_row_change([], 0, 0)
+        end
+        println("$column out of $(length(rows))")
+    end
+    #changes = [get_saferoot(rowvals[column], rows[column], column) for column in 1:length(rows)]
+
+    dropzeros(handle_row_change!(mat, changes))
+end
+
+function get_deep_changes(mat)
+    mat = dropzeros(mat)
+    rows = find_rows(mat)
+
+    rowvals = [[mat[rowid, col] for rowid in rows[col]] for col in 1:length(rows)]
+    changes = Array{mat_row_change, 1}(undef, length(rows))
+    for column in 1:length(rows)
+        if !isempty(rowvals[column])
+            changes[column] = get_saferoot(rowvals[column], rows[column], column)
+        else
+            changes[column] = mat_row_change([], 0, 0)
+        end
+        println("$column out of $(length(rows))")
+    end
+    changes
+end
     
