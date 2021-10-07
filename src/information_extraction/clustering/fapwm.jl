@@ -162,5 +162,34 @@ function plot_all_combos(fapwm, fs, ps, num)
     end
 end
 
+function get_words_and_ratios(fapwm, lexicon, num=50)
+    srps = [sortperm(fapwm[:,i])[1:num] for i in 1:(fapwm.n)]
+    ratios = [fapwm[:,i][srps[i]] for i in 1:(fapwm.n)]
+    ratios = [[i/(x[end]) for i in x] for x in ratios]
+    ratios = [round.(x) for x in ratios]
+    ratios = [Int.(x) for x in ratios]
+    names = [lexi[x] for x in srps]
+    names, ratios
+end
+
+function get_wc_clouds(names, ratios)
+    res = []
+    for cluster in 1:length(names)
+         tmp = []
+        for word_i in 1:length(names[cluster])
+            tmp = vcat(tmp, repeat([names[cluster][word_i]],ratios[cluster][word_i]))
+        end
+        push!(res, tmp)
+    end
+    res
+end
+
+function fapwm_lexi_to_wordclouds(fapwm, lexi, num = 50, name= "wordcloud for cluster ")
+    names, ratios = get_words_and_ratios(fapwm, lexi, num)
+    ws = [generate!(wordcloud(names[i], ratios[i])) for i in 1:length(names)]
+    [paint(ws[i], "$name$i.svg") for i in 1:length(ws)]
+    ws
+end
+
 
 
